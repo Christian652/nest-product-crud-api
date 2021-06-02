@@ -76,7 +76,7 @@ export class UserController {
   @UseGuards(RolesGuard)
   public async delete(@Param('id', ParseIntPipe) id: number) {
     try {
-      const deletedUser = await this.userService.deleteUser(id);
+      const deletedUser = await this.userService.delete(id);
       return deletedUser;
     } catch (error) {
       throw new HttpException('Algo Deu Errado! Contate o Suporte!', HttpStatus.INTERNAL_SERVER_ERROR);
