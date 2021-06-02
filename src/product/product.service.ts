@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { ProductDTO } from './dto/product.dto';
 import { ProductRepository } from './product.repository';
+import { GetProductFilterDTO } from './dto/getProducts.filter.dto';
 
 @Injectable()
 export class ProductService {
@@ -24,8 +25,8 @@ export class ProductService {
     }
   }
 
-  public async getAll(): Promise<Product[]> {
-    return await this.ProductRepository.find();
+  public async getAll(parameters: GetProductFilterDTO): Promise<Product[]> {
+    return await this.ProductRepository.getAll(parameters);
   }
 
   public async getOne(id: number): Promise<Product> {

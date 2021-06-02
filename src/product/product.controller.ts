@@ -11,7 +11,8 @@ import {
   HttpStatus,
   UsePipes,
   ValidationPipe,
-  ParseIntPipe
+  ParseIntPipe,
+  Query
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductDTO } from './dto/product.dto';
@@ -20,6 +21,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Role } from 'src/auth/enums/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator'
 import { RolesGuard } from 'src/auth/roles.guard';
+import { GetProductFilterDTO } from './dto/getProducts.filter.dto';
 
 @UseGuards(AuthGuard())
 @UseGuards(RolesGuard)
@@ -59,9 +61,10 @@ export class ProductController {
 
   @Get()
   @UseGuards(RolesGuard)
-  public async getAll(): Promise<Product[]> {
+  public async getAll(@Query() parameters: GetProductFilterDTO): Promise<Product[]> {
     try {
-      const product = await this.productService.getAll();
+      console.log(parameters);
+      const product = await this.productService.getAll(parameters);
       return product;
     } catch (error) {
       throw new HttpException('Algo Deu Errado! Contate o Suporte!', HttpStatus.INTERNAL_SERVER_ERROR);
