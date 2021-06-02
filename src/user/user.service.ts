@@ -49,7 +49,7 @@ export class UserService {
     return await this.userRepository.findOne({ where: { id } });
   }
 
-  public async deleteUser(userId: number): Promise<void> {
+  public async delete(userId: number): Promise<void> {
     await this.userRepository.delete(userId);
   }
 
