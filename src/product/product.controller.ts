@@ -63,7 +63,6 @@ export class ProductController {
   @UseGuards(RolesGuard)
   public async getAll(@Query() parameters: GetProductFilterDTO): Promise<Product[]> {
     try {
-      console.log(parameters);
       const product = await this.productService.getAll(parameters);
       return product;
     } catch (error) {
