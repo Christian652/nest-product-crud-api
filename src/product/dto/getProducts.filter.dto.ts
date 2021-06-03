@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class GetProductFilterDTO {
 
@@ -15,7 +15,11 @@ export class GetProductFilterDTO {
   like: string;
 
   @IsOptional()
-  @IsString()
-  select: string;
+  @IsInt()
+  limit: number;
+
+  @IsOptional()
+  @IsInt()
+  page: number;
 
 }

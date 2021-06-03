@@ -60,11 +60,13 @@ export class ProductController {
   }
 
   @Get()
-  @UseGuards(RolesGuard)
-  public async getAll(@Query() parameters: GetProductFilterDTO): Promise<Product[]> {
+  public async getAll(@Query() parameters: GetProductFilterDTO): Promise<any> {
     try {
       const product = await this.productService.getAll(parameters);
-      return product;
+      
+      return {
+        data: product
+      };
     } catch (error) {
       throw new HttpException('Algo Deu Errado! Contate o Suporte!', HttpStatus.INTERNAL_SERVER_ERROR);
     }

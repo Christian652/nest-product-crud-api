@@ -17,13 +17,11 @@ export class ProductRepository extends Repository<Product> {
     Product_.description = description;
     Product_.unitPrice = unitPrice;
 
-    await Product_.save();
-
-    return Product_;
+    return (await Product_.save());
   }
 
   public async getAll(parameters: GetProductFilterDTO) {
-    const { orderBy, sort, like } = parameters;
+    const { orderBy, sort, like, page, limit } = parameters;
 
     const query = this.createQueryBuilder('products');
 
@@ -32,6 +30,13 @@ export class ProductRepository extends Repository<Product> {
         'products.name LIKE :like OR products.description LIKE :like OR products.unitPrice LIKE :like', 
         {like: `%${like}%`}
       );
+    
+    if (limit) {
+      query.limit(limit);
+      
+      if (page) 
+        this.paginate(page, limit, query)
+    }
 
     if (orderBy) 
       if (sort) {
@@ -39,8 +44,18 @@ export class ProductRepository extends Repository<Product> {
       } else {
         query.orderBy(orderBy)
       }
-
+    
     return await query.getMany();
   }
 
+  public async insertMany(values) {
+    await this.createQueryBuilder('product')
+      .insert()
+      .values(values)
+      .execute();
+  }
+
+  public paginate(page, limit, query) {
+    query.offset((page - 1) * limit)
+  }
 }
