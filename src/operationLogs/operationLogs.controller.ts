@@ -4,12 +4,15 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { OperationLogsService } from './operationLogs.service';
 import { Log } from './log.entity';
 import { LogFiltersDto } from './dto/logFilters.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('logs')
+@UseGuards(AuthGuard())
 export class OperationLogsController {
   constructor(private operationLogsService: OperationLogsService) { }
 
@@ -20,7 +23,7 @@ export class OperationLogsController {
   }
 
   @Get(':id')
-  public async getById(@Body('id', ParseIntPipe) id) {
+  public async getById(@Param('id', ParseIntPipe) id) {
     return await this.operationLogsService.findById(id);
   }
 }

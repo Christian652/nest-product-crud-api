@@ -36,6 +36,7 @@ export class UserController {
     @Body() userDto: UserDTO,
   ) {
     try {
+      console.log(userDto);
       const user = await this.userService.save(userDto);
 
       return user;
