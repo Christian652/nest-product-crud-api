@@ -14,6 +14,5 @@ export class UserDTO {
   role: string;
 
   @IsString()
-  @Exclude()
   password: string;
 }

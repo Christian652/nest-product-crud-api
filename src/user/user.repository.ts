@@ -10,12 +10,13 @@ export class UserRepository extends Repository<User> {
   public async saveUser(
     userDto: UserDTO,
   ){
-    const { id, name, email, password } = userDto;
+    const { id, name, email, role, password } = userDto;
 
     const user = new User();
     user.id = id ? id : null;
     user.name = name;
     user.email = email;
+    user.role = role;
    
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
@@ -33,7 +34,7 @@ export class UserRepository extends Repository<User> {
 
   public async truncate() {
     await this.query('SET FOREIGN_KEY_CHECKS = 0;');
-    await this.query('TRUNCATE TABLE user');
+    await this.query('TRUNCATE TABLE users');
     await this.query('SET FOREIGN_KEY_CHECKS = 1;');
   }
 }
